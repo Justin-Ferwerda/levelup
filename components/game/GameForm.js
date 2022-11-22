@@ -25,7 +25,6 @@ const GameForm = ({ user }) => {
       ...prevState,
       [name]: value,
     }));
-    console.warn(currentGame);
   };
 
   const handleSubmit = (e) => {
@@ -38,7 +37,7 @@ const GameForm = ({ user }) => {
       number_of_players: Number(currentGame.number_of_players),
       skill_level: Number(currentGame.skill_level),
       game_type: Number(currentGame.game_type),
-      user_id: user.uid,
+      uid: user.uid,
     };
 
     // Send POST request to your API
