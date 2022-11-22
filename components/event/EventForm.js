@@ -3,9 +3,9 @@ import PropTypes from 'prop-types';
 import { useState, useEffect } from 'react';
 import { Button, Form } from 'react-bootstrap';
 import { getGames } from '../../utils/data/gameData';
-import { createEvent } from '../../utils/data/eventData';
+import { createEvent, updateEvent } from '../../utils/data/eventData';
 
-const EventForm = ({ user }) => {
+const EventForm = ({ user, obj }) => {
   const [games, setGames] = useState([]);
   const [currentEvent, setCurrentEvent] = useState({
     game: null,
@@ -18,7 +18,8 @@ const EventForm = ({ user }) => {
 
   useEffect(() => {
     getGames().then(setGames);
-  }, []);
+    if (obj.id) setCurrentEvent(obj);
+  }, [obj]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -31,17 +32,19 @@ const EventForm = ({ user }) => {
   const handleSubmit = (e) => {
     // Prevent form from being submitted
     e.preventDefault();
-
-    const event = {
-      game: currentEvent.game,
-      description: currentEvent.description,
-      date: currentEvent.date,
-      time: currentEvent.time,
-      organizer: user.uid,
-    };
-
-    // Send POST request to your API
-    createEvent(event).then(() => router.push('/events'));
+    if (obj.id) {
+      updateEvent(currentEvent, obj.id)
+        .then(() => router.push('/events'));
+    } else {
+      const event = {
+        game: currentEvent.game,
+        description: currentEvent.description,
+        date: currentEvent.date,
+        time: currentEvent.time,
+        organizer: user.uid,
+      };
+      createEvent(event).then(() => router.push('/events'));
+    }
   };
 
   return (
@@ -61,7 +64,7 @@ const EventForm = ({ user }) => {
         </Form.Group>
         <Form.Group className="mb-3">
           <Form.Label>Game</Form.Label>
-          <Form.Select onChange={handleChange} className="mb-3" name="game" required>
+          <Form.Select onChange={handleChange} className="mb-3" name="game" value={currentEvent.game?.id} required>
             <option value="">Select a Game</option>
             {games.map((game) => (
               <option defaultValue={game.id === currentEvent.game} key={game.title} value={game.id}>
@@ -85,6 +88,9 @@ EventForm.propTypes = {
     fbUser: PropTypes.shape({
       displayName: PropTypes.string,
     }).isRequired,
+  }).isRequired,
+  obj: PropTypes.shape({
+    id: PropTypes.number,
   }).isRequired,
 };
 
