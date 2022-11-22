@@ -3,7 +3,7 @@ import React from 'react';
 import { Card } from 'react-bootstrap';
 
 const EventCard = ({
-  game, description, date, time, organizer,
+  game, description, date, time,
 }) => {
   const [year, month, day] = date.split('-');
   const newDate = [month, day, year].join('/');
@@ -15,7 +15,6 @@ const EventCard = ({
         <Card.Title>{newDate} @ {time}</Card.Title>
         <Card.Text>{description}</Card.Text>
       </Card.Body>
-      <Card.Footer className="text-muted">{organizer.bio}</Card.Footer>
     </Card>
   );
 };
