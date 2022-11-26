@@ -10,7 +10,7 @@ function Home() {
 
   useEffect(() => {
     getGames().then((data) => setGames(data));
-  }, []);
+  }, [games]);
 
   return (
     <article className="games">
@@ -24,7 +24,7 @@ function Home() {
       </Button>
       {games.map((game) => (
         <section key={`game--${game.id}`} className="game">
-          <GameCard title={game.title} maker={game.maker} numberOfPlayers={game.number_of_players} skillLevel={game.skill_level} />
+          <GameCard title={game.title} maker={game.maker} numberOfPlayers={game.number_of_players} skillLevel={game.skill_level} id={game.id} onUpdate={() => router.push('/games')} />
         </section>
       ))}
     </article>
