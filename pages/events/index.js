@@ -10,7 +10,7 @@ function Home() {
 
   useEffect(() => {
     getEvents().then((data) => setEvents(data));
-  }, []);
+  }, [router]);
 
   return (
     <>
@@ -25,7 +25,7 @@ function Home() {
         <h1>Events</h1>
         {events.map((event) => (
           <section key={`event--${event.id}`} className="event">
-            <EventCard game={event.game} description={event.description} date={event.date} time={event.time} />
+            <EventCard game={event.game} description={event.description} date={event.date} time={event.time} id={event.id} onUpdate={() => router.push('/events')} />
           </section>
         ))}
       </article>
