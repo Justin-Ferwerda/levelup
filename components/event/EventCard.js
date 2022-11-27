@@ -1,12 +1,19 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import { Card } from 'react-bootstrap';
+import { Button, Card } from 'react-bootstrap';
+import { deleteEvent } from '../../utils/data/eventData';
 
-const EventCard = ({
-  game, description, date, time,
-}) => {
+function EventCard({
+  game, description, date, time, id, onUpdate,
+}) {
   const [year, month, day] = date.split('-');
   const newDate = [month, day, year].join('/');
+
+  const deleteThisEvent = () => {
+    if (window.confirm(`delete ${description}?`)) {
+      deleteEvent(id).then(() => onUpdate());
+    }
+  };
 
   return (
     <Card className="text-center">
@@ -14,10 +21,11 @@ const EventCard = ({
       <Card.Body>
         <Card.Title>{newDate} @ {time}</Card.Title>
         <Card.Text>{description}</Card.Text>
+        <Card.Footer><Button onClick={deleteThisEvent}>Delete Event</Button></Card.Footer>
       </Card.Body>
     </Card>
   );
-};
+}
 
 EventCard.propTypes = {
   game: PropTypes.shape({
@@ -36,6 +44,8 @@ EventCard.propTypes = {
     uid: PropTypes.string,
     bio: PropTypes.string,
   }).isRequired,
+  id: PropTypes.number.isRequired,
+  onUpdate: PropTypes.func.isRequired,
 };
 
 export default EventCard;

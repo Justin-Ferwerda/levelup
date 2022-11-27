@@ -18,7 +18,7 @@ const EventForm = ({ user, obj }) => {
 
   useEffect(() => {
     getGames().then(setGames);
-    if (obj.id) setCurrentEvent(obj);
+    if (obj?.id) setCurrentEvent(obj);
   }, [obj]);
 
   const handleChange = (e) => {
@@ -32,7 +32,7 @@ const EventForm = ({ user, obj }) => {
   const handleSubmit = (e) => {
     // Prevent form from being submitted
     e.preventDefault();
-    if (obj.id) {
+    if (obj?.id) {
       updateEvent(currentEvent, obj.id)
         .then(() => router.push('/events'));
     } else {

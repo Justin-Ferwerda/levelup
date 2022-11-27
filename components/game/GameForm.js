@@ -17,7 +17,7 @@ const GameForm = ({ user, obj }) => {
 
   useEffect(() => {
     getGameTypes().then(setGameTypes);
-    if (obj.id) setCurrentGame(obj);
+    if (obj?.id) setCurrentGame(obj);
   }, [obj]);
 
   const handleChange = (e) => {
@@ -26,12 +26,13 @@ const GameForm = ({ user, obj }) => {
       ...prevState,
       [name]: value,
     }));
+    console.warn(currentGame);
   };
 
   const handleSubmit = (e) => {
     // Prevent form from being submitted
     e.preventDefault();
-    if (obj.id) {
+    if (obj?.id) {
       updateGame(currentGame, obj.id)
         .then(() => router.push('/games'));
     } else {
@@ -40,9 +41,10 @@ const GameForm = ({ user, obj }) => {
         title: currentGame.title,
         number_of_players: Number(currentGame.number_of_players),
         skill_level: Number(currentGame.skill_level),
-        game_type: Number(currentGame.game_type.id),
+        game_type: Number(currentGame.game_type),
         uid: user.uid,
       };
+      console.warn(game);
       createGame(game).then(() => router.push('/games'));
     }
   };
