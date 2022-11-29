@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
 import { Button } from 'react-bootstrap';
@@ -11,7 +12,7 @@ function Home() {
   const { user } = useAuth();
 
   useEffect(() => {
-    getEvents().then((data) => setEvents(data));
+    getEvents(user.uid).then((data) => setEvents(data));
   }, [router]);
 
   return (
