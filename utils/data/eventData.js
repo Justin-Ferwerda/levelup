@@ -1,7 +1,11 @@
 import { clientCredentials } from '../client';
 
 const getEvents = (uid = '') => new Promise((resolve, reject) => {
-  fetch(`${clientCredentials.databaseURL}/events?uid=${uid}`)
+  fetch(`${clientCredentials.databaseURL}/events`, {
+    headers: {
+      Authorization: uid,
+    },
+  })
     .then((response) => response.json())
     .then(resolve)
     .catch(reject);
